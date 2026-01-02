@@ -1,0 +1,98 @@
+<aside class="sidebar" :class="{ 'collapsed': !sidebarOpen }">
+  <div class="sidebar-content">
+    <% if (currentPath === '/dashboard') { %>
+      <!-- Sidebar Dashboard -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Résumé</h3>
+        <p class="sidebar-text">
+          Bienvenue dans votre espace de pilotage du projet B2B ISFEC.
+        </p>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Accès rapide</h3>
+        <nav class="sidebar-nav">
+          <a href="/etude/v1" class="sidebar-link">
+            <span class="sidebar-link-icon">V1</span>
+            Étude complète
+          </a>
+          <a href="/etude/v2" class="sidebar-link">
+            <span class="sidebar-link-icon">V2</span>
+            Vision stratégique
+          </a>
+          <a href="/checklist" class="sidebar-link">
+            <span class="sidebar-link-icon">CL</span>
+            Checklist
+          </a>
+        </nav>
+      </div>
+
+    <% } else if (currentPath.startsWith('/etude')) { %>
+      <!-- Sidebar Études - Table des matières -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Version</h3>
+        <div class="version-toggle">
+          <a href="/etude/v1" class="version-btn <%= currentPath.includes('/v1') ? 'active' : '' %>">V1</a>
+          <a href="/etude/v2" class="version-btn <%= currentPath.includes('/v2') ? 'active' : '' %>">V2</a>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Table des matières</h3>
+        <nav class="toc" id="table-of-contents">
+          <!-- Rempli dynamiquement par JS -->
+          <p class="sidebar-text">Chargement...</p>
+        </nav>
+      </div>
+
+    <% } else if (currentPath === '/checklist') { %>
+      <!-- Sidebar Checklist -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Filtres</h3>
+        <div class="filter-buttons" x-data="{ filter: 'all' }">
+          <button class="filter-btn" :class="{ active: filter === 'all' }" @click="filter = 'all'; $dispatch('filter-change', 'all')">
+            Tous
+          </button>
+          <button class="filter-btn" :class="{ active: filter === 'incomplete' }" @click="filter = 'incomplete'; $dispatch('filter-change', 'incomplete')">
+            Non complétés
+          </button>
+          <button class="filter-btn critical" :class="{ active: filter === 'critique' }" @click="filter = 'critique'; $dispatch('filter-change', 'critique')">
+            Critiques
+          </button>
+          <button class="filter-btn important" :class="{ active: filter === 'important' }" @click="filter = 'important'; $dispatch('filter-change', 'important')">
+            Importants
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Actions</h3>
+        <a href="/checklist/export" class="btn btn-secondary btn-block" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Exporter en PDF
+        </a>
+      </div>
+
+    <% } else if (currentPath === '/assistant') { %>
+      <!-- Sidebar Assistant -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Conversations</h3>
+        <button class="btn btn-primary btn-block" id="new-conversation">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Nouvelle conversation
+        </button>
+        <nav class="conversation-list" id="conversation-list">
+          <!-- Rempli dynamiquement -->
+        </nav>
+      </div>
+
+    <% } %>
+  </div>
+</aside>

@@ -1,0 +1,372 @@
+<div class="etude-container">
+  <!-- Barre de recherche -->
+  <div class="search-bar">
+    <div class="search-box">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        type="text"
+        id="search-input"
+        class="search-input"
+        placeholder="Rechercher dans l'étude..."
+        autocomplete="off"
+      >
+      <div id="search-results" class="search-results"></div>
+    </div>
+
+    <div class="version-toggle">
+      <a href="/etude/v1" class="version-btn <%= version === 'v1' ? 'active' : '' %>">V1 Complète</a>
+      <a href="/etude/v2" class="version-btn <%= version === 'v2' ? 'active' : '' %>">V2 Vision</a>
+    </div>
+  </div>
+
+  <% if (etude && etude.sections) { %>
+    <!-- Contenu de l'étude -->
+    <div class="etude-content">
+      <!-- Sidebar Table des matières -->
+      <nav class="etude-toc">
+        <h3 class="toc-title">Table des matières</h3>
+        <div class="toc-list">
+          <% etude.sections.forEach((section, index) => { %>
+            <a href="#section-<%= section.id %>" class="toc-item" data-section="<%= section.id %>">
+              <span class="toc-numero"><%= section.numero %></span>
+              <span class="toc-titre"><%= section.titre %></span>
+            </a>
+            <% if (section.sousSections) { %>
+              <% section.sousSections.forEach(ss => { %>
+                <a href="#section-<%= ss.id %>" class="toc-item toc-item-sub" data-section="<%= ss.id %>">
+                  <span class="toc-numero"><%= ss.numero %></span>
+                  <span class="toc-titre"><%= ss.titre %></span>
+                </a>
+              <% }); %>
+            <% } %>
+          <% }); %>
+        </div>
+      </nav>
+
+      <!-- Contenu principal -->
+      <main class="etude-main">
+        <div class="etude-header">
+          <h1><%= etude.meta.titre %></h1>
+          <p class="etude-subtitle"><%= etude.meta.sousTitre %></p>
+          <p class="etude-date"><%= etude.meta.date %></p>
+        </div>
+
+        <% etude.sections.forEach((section, index) => { %>
+          <section id="section-<%= section.id %>" class="section">
+            <h2 class="section-title">
+              <span class="section-numero"><%= section.numero %>.</span>
+              <%= section.titre %>
+            </h2>
+
+            <div class="section-content">
+              <%- section.contenu %>
+            </div>
+
+            <% if (section.graphiques && section.graphiques.length > 0) { %>
+              <div class="section-charts">
+                <% section.graphiques.forEach(graph => { %>
+                  <div class="chart-container" id="chart-<%= graph.id %>">
+                    <h4 class="chart-title"><%= graph.titre %></h4>
+                    <canvas id="canvas-<%= graph.id %>"></canvas>
+                  </div>
+                <% }); %>
+              </div>
+            <% } %>
+
+            <% if (section.actionRequise) { %>
+              <div class="action-requise">
+                <h4>Action requise</h4>
+                <ul>
+                  <% section.actionRequise.items.forEach(item => { %>
+                    <li><%= item %></li>
+                  <% }); %>
+                </ul>
+              </div>
+            <% } %>
+
+            <% if (section.sousSections) { %>
+              <% section.sousSections.forEach(ss => { %>
+                <section id="section-<%= ss.id %>" class="sous-section">
+                  <h3 class="sous-section-title">
+                    <span class="section-numero"><%= ss.numero %></span>
+                    <%= ss.titre %>
+                  </h3>
+                  <div class="section-content">
+                    <%- ss.contenu %>
+                  </div>
+                </section>
+              <% }); %>
+            <% } %>
+          </section>
+        <% }); %>
+
+        <!-- Navigation bas de page -->
+        <div class="etude-nav-bottom">
+          <a href="/etude/<%= version === 'v1' ? 'v2' : 'v1' %>" class="btn btn-secondary">
+            Voir l'étude <%= version === 'v1' ? 'V2' : 'V1' %>
+          </a>
+        </div>
+      </main>
+    </div>
+  <% } else { %>
+    <div class="empty-state">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+      </svg>
+      <h2>Étude non disponible</h2>
+      <p>Le contenu de cette étude n'a pas encore été chargé.</p>
+      <a href="/dashboard" class="btn btn-primary">Retour au dashboard</a>
+    </div>
+  <% } %>
+</div>
+
+<script>
+  window.currentVersion = '<%= version %>';
+  <% if (etude && etude.sections) { %>
+  window.etudeGraphiques = <%- JSON.stringify(etude.sections.filter(s => s.graphiques).flatMap(s => s.graphiques)) %>;
+  <% } else { %>
+  window.etudeGraphiques = [];
+  <% } %>
+</script>
+
+<style>
+.etude-container {
+  max-width: 100%;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.search-bar .search-box {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.search-bar .version-toggle {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.etude-content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--space-xl);
+}
+
+@media (max-width: 1024px) {
+  .etude-content {
+    grid-template-columns: 1fr;
+  }
+
+  .etude-toc {
+    display: none;
+  }
+}
+
+.etude-toc {
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-lg));
+  height: fit-content;
+  max-height: calc(100vh - var(--header-height) - var(--space-2xl));
+  overflow-y: auto;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.toc-title {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.toc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--gray-text);
+  font-size: 14px;
+  border-radius: var(--radius-md);
+  border-left: 3px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.toc-item:hover {
+  background: var(--rose-pale);
+  color: var(--bordeaux);
+}
+
+.toc-item.active {
+  background: var(--rose-pale);
+  color: var(--bordeaux);
+  border-left-color: var(--bordeaux);
+  font-weight: 500;
+}
+
+.toc-item-sub {
+  padding-left: calc(var(--space-md) + var(--space-lg));
+  font-size: 13px;
+}
+
+.toc-numero {
+  font-weight: 600;
+  min-width: 2em;
+}
+
+.etude-main {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.etude-header {
+  text-align: center;
+  padding-bottom: var(--space-xl);
+  margin-bottom: var(--space-xl);
+  border-bottom: 2px solid var(--gray-light);
+}
+
+.etude-header h1 {
+  color: var(--bordeaux);
+  margin-bottom: var(--space-sm);
+}
+
+.etude-subtitle {
+  font-size: 18px;
+  color: var(--gray-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.etude-date {
+  font-size: 14px;
+  color: var(--gray-secondary);
+}
+
+.section {
+  padding: var(--space-xl) 0;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.section-title {
+  color: var(--bordeaux);
+  margin-bottom: var(--space-lg);
+}
+
+.section-numero {
+  color: var(--bordeaux-light);
+}
+
+.section-content {
+  line-height: 1.8;
+}
+
+.section-content p {
+  margin-bottom: var(--space-md);
+}
+
+.section-content ul, .section-content ol {
+  margin: var(--space-md) 0;
+  padding-left: var(--space-xl);
+}
+
+.section-content li {
+  margin-bottom: var(--space-sm);
+}
+
+.section-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-lg) 0;
+}
+
+.section-content th, .section-content td {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--gray-light);
+  text-align: left;
+}
+
+.section-content th {
+  background: var(--rose-pale);
+  font-weight: 600;
+}
+
+.section-content tr:nth-child(even) {
+  background: var(--gray-bg);
+}
+
+.sous-section {
+  margin-top: var(--space-xl);
+  padding-left: var(--space-lg);
+  border-left: 3px solid var(--rose-pale);
+}
+
+.sous-section-title {
+  color: var(--bordeaux-light);
+  margin-bottom: var(--space-md);
+}
+
+.chart-container {
+  background: var(--gray-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+
+.chart-title {
+  text-align: center;
+  margin-bottom: var(--space-md);
+  color: var(--gray-text);
+}
+
+.action-requise {
+  background: var(--warning-light);
+  border-left: 4px solid var(--warning);
+  padding: var(--space-md) var(--space-lg);
+  margin: var(--space-lg) 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.action-requise h4 {
+  color: var(--warning);
+  margin-bottom: var(--space-sm);
+}
+
+.action-requise ul {
+  margin: 0;
+  padding-left: var(--space-lg);
+}
+
+.etude-nav-bottom {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-xl);
+  margin-top: var(--space-xl);
+  border-top: 1px solid var(--gray-light);
+}
+</style>

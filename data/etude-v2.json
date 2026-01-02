@@ -1,0 +1,166 @@
+{
+  "meta": {
+    "version": "V2",
+    "titre": "Étude de Marché V2",
+    "sousTitre": "Nous créons un second pilier économique B2B, augmenté par l'IA",
+    "date": "Janvier 2026",
+    "pages": 40
+  },
+  "sections": [
+    {
+      "id": "synthese",
+      "numero": "1",
+      "titre": "Synthèse Exécutive",
+      "contenu": "<p><strong>Thèse de croissance :</strong></p><blockquote>Nous transformons une expertise pédagogique reconnue en une offre B2B \"prête à acheter\", pour des organisations à mission sociale et des entreprises franciliennes. L'IA nous permet d'industrialiser le sur-mesure et de prouver l'impact — avec des ressources limitées.</blockquote><p>Cette V2 définit le cap : <strong>pilier autonome hors réseau, augmenté par l'IA</strong>.</p>",
+      "sousSections": [
+        {
+          "id": "synthese-objectifs",
+          "numero": "1.1",
+          "titre": "Objectifs V2",
+          "contenu": "<table><thead><tr><th>Indicateur</th><th>Année 1</th><th>Année 2</th><th>Année 3</th></tr></thead><tbody><tr><td>CA total pilier B2B</td><td>150 K€</td><td>350 K€</td><td>700 K€</td></tr><tr><td>Clients actifs</td><td>30</td><td>70</td><td>150</td></tr><tr><td>Part hors réseau</td><td>35%</td><td>55%</td><td><strong>65%</strong></td></tr></tbody></table>"
+        },
+        {
+          "id": "synthese-changements",
+          "numero": "1.2",
+          "titre": "Ce qui change entre V1 et V2",
+          "contenu": "<table><thead><tr><th>Dimension</th><th>V1</th><th>V2</th></tr></thead><tbody><tr><td>Moteur de croissance</td><td>Réseau EC comme base</td><td><strong>Marché hors réseau</strong></td></tr><tr><td>Part hors réseau (Y3)</td><td>~40% implicite</td><td><strong>65% explicite</strong></td></tr><tr><td>Rôle de l'IA</td><td>Mentionné</td><td><strong>Levier central</strong></td></tr></tbody></table>"
+        }
+      ],
+      "graphiques": [
+        {
+          "id": "evolution-ca",
+          "type": "bar",
+          "titre": "Évolution du CA B2B sur 3 ans",
+          "data": {
+            "labels": ["Année 1", "Année 2", "Année 3"],
+            "datasets": [
+              {
+                "label": "CA Total (K€)",
+                "data": [150, 350, 700],
+                "backgroundColor": "#722F37"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "segmentation",
+      "numero": "3",
+      "titre": "Cadre et Périmètre — Segmentation V2",
+      "contenu": "<p>La V2 propose une <strong>segmentation ambitieuse</strong> avec un objectif de <strong>65% du CA hors réseau EC</strong> à 3 ans.</p><h4>Segment A — ESS hors enseignement catholique ⭐ PRIORITAIRE</h4><ul><li>Associations employeuses, fondations, structures d'insertion</li><li>Besoins : management, RH, prévention RPS, gestion conflits, SST</li><li>Pourquoi : tissu dense en IdF, valeurs compatibles, OPCO Uniformation</li></ul><h4>Segment B — Médico-social hors réseau ⭐ PRIORITAIRE</h4><ul><li>EHPAD, structures handicap, aide à domicile</li><li>Besoins : prévention (SST, PSSM), gestion tensions, management proximité</li><li>Pourquoi : forte demande, renouvellement obligatoire, OPCO Santé</li></ul><h4>Segment C — PME/ETI services (sélectif)</h4><ul><li>PME tertiaires, services, support</li><li>Besoins : management, efficacité, numérique/IA</li></ul><h4>Segment D — Réseau EC (socle, non moteur)</h4><ul><li>Flux stabilisant + laboratoire de preuves</li><li>Ce n'est plus le moteur de croissance</li></ul>",
+      "graphiques": [
+        {
+          "id": "segments-y3",
+          "type": "doughnut",
+          "titre": "Répartition CA cible Année 3 (700 K€)",
+          "data": {
+            "labels": ["ESS hors EC", "Médico-social", "PME services", "Réseau EC"],
+            "datasets": [{
+              "data": [260, 180, 200, 60],
+              "backgroundColor": ["#722F37", "#8B4049", "#A65560", "#C47A82"]
+            }]
+          }
+        }
+      ],
+      "actionRequise": {
+        "items": [
+          "Valider les segments prioritaires (ESS + médico-social)",
+          "Confirmer l'objectif 65% hors réseau à Y3"
+        ]
+      }
+    },
+    {
+      "id": "offre",
+      "numero": "6",
+      "titre": "Offre V2 — Packs + Sur-mesure cadré",
+      "contenu": "<p><strong>Le client doit comprendre l'offre en 60 secondes.</strong></p><h4>Architecture V2</h4><ul><li><strong>3 Packs signature</strong> → cœur de l'offre</li><li><strong>2 Packs conformité</strong> → volume et récurrence</li><li><strong>Sur-mesure cadré</strong> → diagnostic + design + déploiement</li></ul><h4>Pack 1 — « Manager & Stabiliser »</h4><p>Cible : Managers ESS/médico-social • Durée : 2-3 jours • Tarif : 850-1 200 €/pers.</p><h4>Pack 2 — « Coopérer & Prévenir »</h4><p>Cible : Équipes terrain • Durée : 2 jours • Tarif : 750-950 €/pers.</p><h4>Pack 3 — « IA Pragmatique »</h4><p>Cible : Tous profils • Durée : 1 jour • Tarif : 450-600 €/pers.</p>",
+      "actionRequise": {
+        "items": [
+          "Valider les 3 packs signature",
+          "Confirmer les tarifs proposés (-20 à -30% vs concurrents)"
+        ]
+      }
+    },
+    {
+      "id": "commercial",
+      "numero": "7",
+      "titre": "Stratégie Commerciale V2",
+      "contenu": "<p>Pour atteindre 150 K€ avec un panier de 5 K€ → <strong>30 ventes/an</strong></p><h4>Funnel commercial</h4><table><thead><tr><th>Étape</th><th>Volume</th><th>Taux</th></tr></thead><tbody><tr><td>Leads générés</td><td>250</td><td>100%</td></tr><tr><td>Leads qualifiés (MQL)</td><td>150</td><td>60%</td></tr><tr><td>Opportunités (SQL)</td><td>100</td><td>40%</td></tr><tr><td>Propositions</td><td>50</td><td>20%</td></tr><tr><td>Ventes</td><td>30</td><td><strong>12%</strong></td></tr></tbody></table><p><strong>La clé V2 :</strong> produire 250 leads/an hors réseau. C'est là que l'IA change la donne.</p>",
+      "graphiques": [
+        {
+          "id": "funnel-commercial",
+          "type": "bar",
+          "titre": "Funnel Commercial Année 1",
+          "data": {
+            "labels": ["Leads", "MQL", "SQL", "Propositions", "Ventes"],
+            "datasets": [{
+              "label": "Volume",
+              "data": [250, 150, 100, 50, 30],
+              "backgroundColor": ["#722F37", "#8B4049", "#A65560", "#C47A82", "#2E7D32"]
+            }]
+          }
+        }
+      ],
+      "actionRequise": {
+        "items": [
+          "Décider de l'organisation commerciale (Option A/B/C)",
+          "Définir le budget RH commercial",
+          "Nommer le responsable opérationnel"
+        ]
+      }
+    },
+    {
+      "id": "ia",
+      "numero": "9",
+      "titre": "Intégration IA — Le levier d'exécution",
+      "contenu": "<p><strong>Pourquoi l'IA est au cœur de la V2</strong></p><p>L'ambition V2 est forte : 700 K€ à 3 ans, 65% hors réseau. Les ressources sont limitées. L'IA n'est pas un gadget : c'est le <strong>levier d'exécution</strong> qui permet de tenir cette ambition avec une équipe resserrée.</p><h4>Gains estimés avec l'IA</h4><table><thead><tr><th>Tâche</th><th>Sans IA</th><th>Avec IA</th></tr></thead><tbody><tr><td>Qualification lead</td><td>30 min</td><td>10 min</td></tr><tr><td>Devis/proposition</td><td>2-3h</td><td>30 min</td></tr><tr><td>Contenu LinkedIn</td><td>2h/sem</td><td>30 min/sem</td></tr><tr><td>Reporting</td><td>4h/mois</td><td>30 min</td></tr></tbody></table><p><strong>Gain estimé : x2 à x3 de capacité</strong> pour une personne seule.</p>",
+      "actionRequise": {
+        "items": [
+          "Valider le positionnement \"IA\" (L'ISFEC augmenté par l'IA)",
+          "Prévoir le budget outils IA (3-5 K€/an recommandés)"
+        ]
+      }
+    },
+    {
+      "id": "budget",
+      "numero": "11",
+      "titre": "Budget et Investissement",
+      "contenu": "<h4>Budget de lancement recommandé : 45 000 €</h4><table><thead><tr><th>Poste</th><th>Montant</th></tr></thead><tbody><tr><td>Commercial (6 mois)</td><td>25 000 €</td></tr><tr><td>Marketing (site, contenu)</td><td>10 000 €</td></tr><tr><td>Outils (CRM, IA)</td><td>5 000 €</td></tr><tr><td>Divers</td><td>5 000 €</td></tr></tbody></table><h4>Trésorerie de sécurité : 40 000 €</h4><p>Pour couvrir les délais de paiement OPCO (45-60 jours).</p>",
+      "graphiques": [
+        {
+          "id": "budget-lancement",
+          "type": "doughnut",
+          "titre": "Répartition budget de lancement (45 K€)",
+          "data": {
+            "labels": ["Commercial", "Marketing", "Outils", "Divers"],
+            "datasets": [{
+              "data": [25000, 10000, 5000, 5000],
+              "backgroundColor": ["#722F37", "#8B4049", "#A65560", "#C47A82"]
+            }]
+          }
+        }
+      ],
+      "actionRequise": {
+        "items": [
+          "Valider le budget de lancement (45 K€)",
+          "Valider la trésorerie de sécurité (40 K€)",
+          "Valider le budget marketing annuel (20-25 K€)"
+        ]
+      }
+    },
+    {
+      "id": "plan-90j",
+      "numero": "14",
+      "titre": "Plan des 90 premiers jours",
+      "contenu": "<h4>Mois 1 — Fondations</h4><ul><li>Recrutement/intégration commercial</li><li>CRM opérationnel + process IA</li><li>Site B2B en ligne</li><li>3 premiers leads qualifiés</li></ul><h4>Mois 2 — Traction</h4><ul><li>Premier webinaire (20 inscrits)</li><li>15 leads qualifiés cumulés</li><li>3 propositions envoyées</li><li>Premiers contenus LinkedIn</li></ul><h4>Mois 3 — Premières ventes</h4><ul><li>Première vente signée</li><li>2 cas clients documentés</li><li>Pipeline > 50 K€</li><li>Process commercial validé</li></ul>",
+      "actionRequise": {
+        "items": [
+          "Fixer la date de lancement (M1)",
+          "Définir la date du premier webinaire",
+          "Définir la date cible de première vente"
+        ]
+      }
+    }
+  ]
+}

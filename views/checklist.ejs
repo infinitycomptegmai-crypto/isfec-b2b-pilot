@@ -1,0 +1,346 @@
+<div class="checklist-container" x-data="checklistApp()">
+  <div class="page-header">
+    <div class="page-header-content">
+      <h1 class="page-title">Checklist — Informations à fournir</h1>
+      <p class="page-subtitle">Complétez les informations pour finaliser le projet B2B</p>
+    </div>
+    <a href="/checklist/export" class="btn btn-secondary" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      Exporter PDF
+    </a>
+  </div>
+
+  <!-- Barre de progression -->
+  <div class="checklist-progress">
+    <div class="progress-info">
+      <span class="progress-label">Progression</span>
+      <span class="progress-value"><%= stats.completed %> / <%= stats.total %> complétés (<%= stats.percentage %>%)</span>
+      <span class="save-indicator" id="save-indicator"></span>
+    </div>
+    <div class="progress-bar large">
+      <div class="progress-fill" style="width: <%= stats.percentage %>%"></div>
+    </div>
+  </div>
+
+  <!-- Filtres -->
+  <div class="checklist-filters" @filter-change.window="filter = $event.detail">
+    <button class="filter-btn" :class="{ active: filter === 'all' }" @click="filter = 'all'">Tous</button>
+    <button class="filter-btn" :class="{ active: filter === 'incomplete' }" @click="filter = 'incomplete'">Non complétés</button>
+    <button class="filter-btn critical" :class="{ active: filter === 'critique' }" @click="filter = 'critique'">Critiques</button>
+    <button class="filter-btn important" :class="{ active: filter === 'important' }" @click="filter = 'important'">Importants</button>
+    <button class="filter-btn" :class="{ active: filter === 'utile' }" @click="filter = 'utile'">Utiles</button>
+  </div>
+
+  <!-- Sections -->
+  <div class="checklist-sections">
+    <% checklist.sections.forEach(section => { %>
+      <div
+        class="checklist-section"
+        data-section-id="<%= section.id %>"
+        data-priorite="<%= section.priorite %>"
+        x-show="shouldShowSection('<%= section.id %>', '<%= section.priorite %>')"
+      >
+        <div class="section-header">
+          <h2 class="section-title">
+            <% if (section.priorite === 'critique') { %>
+              <span class="badge badge-critical">CRITIQUE</span>
+            <% } else if (section.priorite === 'important') { %>
+              <span class="badge badge-important">IMPORTANT</span>
+            <% } else { %>
+              <span class="badge badge-useful">UTILE</span>
+            <% } %>
+            <%= section.titre %>
+          </h2>
+        </div>
+
+        <div class="section-fields">
+          <% section.fields.forEach(field => { %>
+            <div
+              class="field-group"
+              id="field-<%= field.id %>"
+              data-field-id="<%= field.id %>"
+              x-show="shouldShowField('<%= field.id %>', '<%= section.priorite %>')"
+            >
+              <label class="field-label" for="input-<%= field.id %>">
+                <%= field.label %>
+                <% if (field.required) { %><span class="required">*</span><% } %>
+              </label>
+
+              <% if (field.help) { %>
+                <p class="field-help"><%= field.help %></p>
+              <% } %>
+
+              <% if (field.type === 'text') { %>
+                <input
+                  type="text"
+                  id="input-<%= field.id %>"
+                  class="form-input"
+                  value="<%= responses[field.id] || '' %>"
+                  @input="saveField('<%= field.id %>', $event.target.value)"
+                >
+              <% } else if (field.type === 'number') { %>
+                <div class="input-with-suffix">
+                  <input
+                    type="number"
+                    id="input-<%= field.id %>"
+                    class="form-input"
+                    value="<%= responses[field.id] || '' %>"
+                    @input="saveField('<%= field.id %>', $event.target.value)"
+                  >
+                  <% if (field.suffix) { %>
+                    <span class="input-suffix"><%= field.suffix %></span>
+                  <% } %>
+                </div>
+              <% } else if (field.type === 'textarea') { %>
+                <textarea
+                  id="input-<%= field.id %>"
+                  class="form-textarea"
+                  rows="3"
+                  @input="saveField('<%= field.id %>', $event.target.value)"
+                ><%= responses[field.id] || '' %></textarea>
+              <% } else if (field.type === 'radio' && field.options) { %>
+                <div class="radio-group">
+                  <% field.options.forEach(option => { %>
+                    <label class="radio-label">
+                      <input
+                        type="radio"
+                        name="<%= field.id %>"
+                        value="<%= option.value %>"
+                        <%= responses[field.id] === option.value ? 'checked' : '' %>
+                        @change="saveField('<%= field.id %>', $event.target.value)"
+                      >
+                      <span><%= option.label %></span>
+                    </label>
+                  <% }); %>
+                </div>
+              <% } else if (field.type === 'checkbox') { %>
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    id="input-<%= field.id %>"
+                    <%= responses[field.id] ? 'checked' : '' %>
+                    @change="saveField('<%= field.id %>', $event.target.checked)"
+                  >
+                  <span class="checkbox-text">Oui</span>
+                </label>
+              <% } %>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<script>
+function checklistApp() {
+  return {
+    filter: 'all',
+    responses: <%- JSON.stringify(responses) %>,
+    saveTimeout: null,
+
+    shouldShowSection(sectionId, priorite) {
+      if (this.filter === 'all') return true;
+      if (this.filter === 'critique' && priorite === 'critique') return true;
+      if (this.filter === 'important' && priorite === 'important') return true;
+      if (this.filter === 'utile' && priorite === 'utile') return true;
+      if (this.filter === 'incomplete') {
+        const section = document.querySelector(`[data-section-id="${sectionId}"]`);
+        if (!section) return true;
+        const fields = section.querySelectorAll('[data-field-id]');
+        for (const field of fields) {
+          const fieldId = field.dataset.fieldId;
+          if (!this.responses[fieldId] || this.responses[fieldId] === '') {
+            return true;
+          }
+        }
+        return false;
+      }
+      return false;
+    },
+
+    shouldShowField(fieldId, sectionPriorite) {
+      if (this.filter === 'all') return true;
+      if (this.filter === 'critique' && sectionPriorite === 'critique') return true;
+      if (this.filter === 'important' && sectionPriorite === 'important') return true;
+      if (this.filter === 'utile' && sectionPriorite === 'utile') return true;
+      if (this.filter === 'incomplete') {
+        return !this.responses[fieldId] || this.responses[fieldId] === '';
+      }
+      return false;
+    },
+
+    saveField(fieldId, value) {
+      this.responses[fieldId] = value;
+
+      // Debounce save
+      clearTimeout(this.saveTimeout);
+      const indicator = document.getElementById('save-indicator');
+      if (indicator) {
+        indicator.classList.add('visible', 'saving');
+        indicator.innerHTML = '<span class="spinner"></span> Sauvegarde...';
+      }
+
+      this.saveTimeout = setTimeout(async () => {
+        try {
+          const response = await fetch(`/api/checklist/${fieldId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value })
+          });
+
+          if (response.ok && indicator) {
+            indicator.classList.remove('saving');
+            indicator.innerHTML = '✓ Sauvegardé';
+            setTimeout(() => {
+              indicator.classList.remove('visible');
+            }, 2000);
+          }
+        } catch (error) {
+          console.error('Erreur de sauvegarde:', error);
+        }
+      }, 1000);
+    }
+  };
+}
+</script>
+
+<style>
+.checklist-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.page-subtitle {
+  color: var(--gray-secondary);
+  margin: 0;
+}
+
+.checklist-progress {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.progress-label {
+  font-weight: 600;
+}
+
+.progress-value {
+  color: var(--gray-secondary);
+}
+
+.progress-bar.large {
+  height: 12px;
+}
+
+.checklist-filters {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.checklist-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.checklist-section {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.section-header {
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--gray-light);
+  background: var(--gray-bg);
+}
+
+.section-header .section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin: 0;
+  font-size: 16px;
+}
+
+.section-fields {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.field-group {
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.field-group:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.field-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+}
+
+.field-label .required {
+  color: var(--error);
+}
+
+.field-help {
+  font-size: 13px;
+  color: var(--gray-secondary);
+  margin: 0 0 var(--space-sm) 0;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  color: var(--gray-text);
+  background: var(--white);
+  border: 2px solid var(--gray-light);
+  border-radius: var(--radius-md);
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--bordeaux);
+  box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.1);
+}
+</style>

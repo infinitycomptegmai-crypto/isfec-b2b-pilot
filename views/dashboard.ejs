@@ -1,0 +1,140 @@
+<div class="page-header">
+  <div class="page-header-content">
+    <h1 class="page-title">Bonjour <%= userName %></h1>
+    <p class="page-date"><%= new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+  </div>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="kpi-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="20" x2="12" y2="10"></line>
+        <line x1="18" y1="20" x2="18" y2="4"></line>
+        <line x1="6" y1="20" x2="6" y2="16"></line>
+      </svg>
+    </div>
+    <div class="kpi-content">
+      <span class="kpi-label">Progression projet</span>
+      <span class="kpi-value"><%= stats.globalProgress %>%</span>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: <%= stats.globalProgress %>%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 11l3 3L22 4"></path>
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+      </svg>
+    </div>
+    <div class="kpi-content">
+      <span class="kpi-label">Checklist</span>
+      <span class="kpi-value"><%= stats.completedFields %> / <%= stats.totalFields %></span>
+      <span class="kpi-sublabel">complétés</span>
+    </div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+    </div>
+    <div class="kpi-content">
+      <span class="kpi-label">Prochain jalon</span>
+      <span class="kpi-value-small"><%= stats.prochainJalon.nom %></span>
+      <span class="kpi-sublabel"><%= stats.prochainJalon.date %></span>
+    </div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-icon kpi-icon-success">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="1" x2="12" y2="23"></line>
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+      </svg>
+    </div>
+    <div class="kpi-content">
+      <span class="kpi-label">CA Cible Année 1</span>
+      <span class="kpi-value"><%= stats.caCible %> &euro;</span>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard-grid">
+  <div class="dashboard-card dashboard-card-large">
+    <div class="card-header">
+      <h2 class="card-title">
+        <span class="card-title-icon critical"></span>
+        Actions prioritaires
+      </h2>
+    </div>
+    <div class="card-content">
+      <% if (criticalActions.length > 0) { %>
+        <ul class="action-list">
+          <% criticalActions.forEach(action => { %>
+            <li class="action-item">
+              <span class="action-checkbox"></span>
+              <div class="action-content">
+                <span class="action-label"><%= action.label %></span>
+                <span class="action-section"><%= action.section %></span>
+              </div>
+              <a href="/checklist#<%= action.id %>" class="action-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </li>
+          <% }); %>
+        </ul>
+      <% } else { %>
+        <div class="empty-state">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <p>Toutes les actions critiques sont complétées !</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h2 class="card-title">Consulter les études</h2>
+    </div>
+    <div class="card-content">
+      <p class="card-text">Accédez aux analyses complètes pour naviguer dans l'étude de marché.</p>
+      <div class="card-actions">
+        <a href="/etude/v1" class="btn btn-secondary">V1 Complète</a>
+        <a href="/etude/v2" class="btn btn-primary">V2 Vision</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h2 class="card-title">Poser une question</h2>
+    </div>
+    <div class="card-content">
+      <p class="card-text">L'assistant IA est là pour vous aider à comprendre les études et prendre des décisions.</p>
+      <div class="card-actions">
+        <a href="/assistant" class="btn btn-primary btn-block">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          Ouvrir l'assistant
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

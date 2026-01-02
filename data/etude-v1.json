@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "version": "V1",
+    "titre": "Étude de Marché V1",
+    "sousTitre": "Développement B2B — Analyse complète du marché Île-de-France",
+    "date": "Janvier 2026",
+    "pages": 100
+  },
+  "sections": [
+    {
+      "id": "resume",
+      "numero": "1",
+      "titre": "Résumé Exécutif",
+      "contenu": "<p>Cette étude analyse le potentiel de développement d'une activité de <strong>formation B2B</strong> pour l'ISFEC AFAREC IdF, en dehors de son marché historique de la formation des enseignants.</p><p><strong>Conclusions principales :</strong></p><ul><li>Le marché de la formation professionnelle en Île-de-France représente <strong>5,7 milliards d'euros</strong></li><li>L'ISFEC dispose d'atouts solides : expertise, certification Qualiopi, localisation Paris</li><li>Le segment ESS et médico-social est particulièrement porteur</li><li>Un objectif de <strong>700 K€ à 3 ans</strong> est atteignable avec une stratégie ciblée</li></ul>"
+    },
+    {
+      "id": "contexte",
+      "numero": "2",
+      "titre": "Contexte et Enjeux",
+      "contenu": "<p>L'ISFEC AFAREC IdF est un institut de formation historique (plus de 110 ans d'existence), spécialisé dans la formation des enseignants du réseau catholique.</p><h4>Forces actuelles</h4><ul><li>Expertise pédagogique reconnue</li><li>Certification Qualiopi obtenue en décembre 2024</li><li>Localisation stratégique à Paris 6ème</li><li>Écosystème de plus de 300 personnes</li></ul><h4>Enjeux de la diversification</h4><ul><li>Réduire la dépendance au réseau enseignement catholique</li><li>Développer un flux de revenus récurrent avec les entreprises</li><li>Valoriser les compétences existantes sur de nouveaux marchés</li></ul>",
+      "actionRequise": {
+        "items": [
+          "Clarifier la capacité réelle (300 personnes = quel périmètre ?)",
+          "Fournir le CA Formation Continue des 3 dernières années"
+        ]
+      }
+    },
+    {
+      "id": "marche",
+      "numero": "3",
+      "titre": "Analyse du Marché",
+      "contenu": "<h4>Le marché de la formation professionnelle en France</h4><p>Le marché français de la formation professionnelle représente environ <strong>32 milliards d'euros</strong>, dont 5,7 milliards pour l'Île-de-France.</p><h4>Tendances clés</h4><ul><li>Digitalisation croissante (blended learning)</li><li>Montée des soft skills et du management</li><li>Focus sur la prévention (RPS, santé mentale)</li><li>Importance croissante de la certification Qualiopi</li></ul><h4>Segments porteurs</h4><table><thead><tr><th>Segment</th><th>Potentiel</th><th>Concurrence</th></tr></thead><tbody><tr><td>ESS (associations)</td><td>Fort</td><td>Moyenne</td></tr><tr><td>Médico-social</td><td>Fort</td><td>Moyenne</td></tr><tr><td>PME services</td><td>Moyen</td><td>Forte</td></tr></tbody></table>",
+      "graphiques": [
+        {
+          "id": "marche-idf",
+          "type": "doughnut",
+          "titre": "Marché formation IdF par secteur",
+          "data": {
+            "labels": ["Entreprises privées", "Secteur public", "ESS/Associatif", "Médico-social", "Autres"],
+            "datasets": [{
+              "data": [45, 25, 12, 10, 8],
+              "backgroundColor": ["#722F37", "#8B4049", "#A65560", "#C47A82", "#D4989F"]
+            }]
+          }
+        }
+      ]
+    },
+    {
+      "id": "concurrence",
+      "numero": "4",
+      "titre": "Analyse Concurrentielle",
+      "contenu": "<h4>Typologie des concurrents</h4><table><thead><tr><th>Type</th><th>Exemples</th><th>Force</th><th>Faiblesse</th></tr></thead><tbody><tr><td>Gros généralistes</td><td>Cegos, Demos</td><td>Volume, marque</td><td>Prix élevés</td></tr><tr><td>Cabinets spécialisés</td><td>Boutiques RH</td><td>Expertise</td><td>Capacité limitée</td></tr><tr><td>EdTech</td><td>OpenClassrooms</td><td>Digital</td><td>Pas de terrain</td></tr><tr><td>Acteurs sectoriels</td><td>CREFI</td><td>Niche</td><td>Géographie</td></tr></tbody></table><h4>Positionnement recommandé</h4><p>Ne pas se battre sur le volume. Gagner par :</p><ul><li>Niches (ESS, médico-social)</li><li>Sur-mesure cadré</li><li>Preuves d'impact</li><li>Prix accessibles (-20 à -30%)</li></ul>"
+    },
+    {
+      "id": "swot",
+      "numero": "5",
+      "titre": "Analyse SWOT",
+      "contenu": "<h4>Forces</h4><ul><li>Expertise pédagogique historique (110 ans)</li><li>Certification Qualiopi récente (2024)</li><li>Localisation Paris</li><li>Capacité hybride présentiel/distanciel</li></ul><h4>Faiblesses</h4><ul><li>Notoriété faible hors réseau EC</li><li>Offre B2B à clarifier</li><li>Ressource commerciale à sécuriser</li></ul><h4>Opportunités</h4><ul><li>Marchés ESS/médico-social peu adressés</li><li>Demande forte en prévention et management</li><li>IA comme différenciateur</li></ul><h4>Menaces</h4><ul><li>Standardisation des gros acteurs</li><li>Pression prix</li><li>Exigences Qualiopi</li></ul>"
+    },
+    {
+      "id": "financier",
+      "numero": "6",
+      "titre": "Projections Financières",
+      "contenu": "<h4>Hypothèses de base</h4><ul><li>Panier moyen : 5 000 € par client</li><li>Taux de récurrence : 40-50% à terme</li><li>Marge brute : 45-50%</li></ul><h4>Projection sur 3 ans</h4><table><thead><tr><th>Indicateur</th><th>Année 1</th><th>Année 2</th><th>Année 3</th></tr></thead><tbody><tr><td>CA B2B</td><td>150 K€</td><td>350 K€</td><td>700 K€</td></tr><tr><td>Clients</td><td>30</td><td>70</td><td>150</td></tr><tr><td>Marge brute</td><td>67 K€</td><td>158 K€</td><td>315 K€</td></tr></tbody></table>",
+      "graphiques": [
+        {
+          "id": "projection-ca",
+          "type": "line",
+          "titre": "Projection CA sur 3 ans",
+          "data": {
+            "labels": ["Année 1", "Année 2", "Année 3"],
+            "datasets": [{
+              "label": "CA (K€)",
+              "data": [150, 350, 700],
+              "borderColor": "#722F37",
+              "backgroundColor": "rgba(114, 47, 55, 0.1)",
+              "fill": true
+            }]
+          }
+        }
+      ]
+    },
+    {
+      "id": "recommandations",
+      "numero": "7",
+      "titre": "Recommandations",
+      "contenu": "<h4>Recommandations stratégiques</h4><ol><li><strong>Cibler en priorité</strong> les segments ESS et médico-social</li><li><strong>Structurer l'offre</strong> en packs clairs et lisibles</li><li><strong>Recruter</strong> un commercial dédié B2B</li><li><strong>Investir</strong> dans le marketing digital et les preuves d'impact</li><li><strong>Intégrer l'IA</strong> comme levier d'efficacité et différenciateur</li></ol><h4>Budget recommandé</h4><ul><li>Lancement : 45 000 €</li><li>Trésorerie sécurité : 40 000 €</li><li>Marketing annuel : 20-25 000 €</li></ul>",
+      "actionRequise": {
+        "items": [
+          "Valider le budget total",
+          "Choisir l'organisation commerciale",
+          "Fixer la date de lancement"
+        ]
+      }
+    }
+  ]
+}

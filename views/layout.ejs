@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> — ISFEC B2B Pilot</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <% if (typeof pageStyles !== 'undefined') { %>
+    <link rel="stylesheet" href="/css/<%= pageStyles %>.css">
+  <% } %>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body x-data="{ sidebarOpen: true, assistantOpen: false }">
+  <% if (user) { %>
+    <%- include('partials/header') %>
+
+    <div class="app-container">
+      <%- include('partials/sidebar') %>
+
+      <main class="main-content" :class="{ 'sidebar-collapsed': !sidebarOpen }">
+        <div class="content-wrapper">
+          <%- body %>
+        </div>
+      </main>
+    </div>
+  <% } else { %>
+    <main class="auth-container">
+      <%- body %>
+    </main>
+  <% } %>
+
+  <!-- JS -->
+  <script src="/js/app.js"></script>
+  <script src="/js/charts.js"></script>
+  <% if (typeof pageScripts !== 'undefined') { %>
+    <script src="/js/<%= pageScripts %>.js"></script>
+  <% } %>
+</body>
+</html>

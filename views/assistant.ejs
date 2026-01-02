@@ -1,0 +1,507 @@
+<div class="assistant-container" x-data="assistantApp()">
+  <div class="assistant-layout">
+    <!-- Sidebar conversations -->
+    <aside class="assistant-sidebar">
+      <button class="btn btn-primary btn-block" @click="newConversation()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Nouvelle conversation
+      </button>
+
+      <div class="conversation-list">
+        <% if (conversations && conversations.length > 0) { %>
+          <% conversations.forEach(conv => { %>
+            <button
+              class="conversation-item <%= activeConversation && activeConversation.id === conv.id ? 'active' : '' %>"
+              @click="loadConversation(<%= conv.id %>)"
+            >
+              <span class="conversation-title"><%= conv.title || 'Conversation' %></span>
+              <span class="conversation-date"><%= new Date(conv.updated_at).toLocaleDateString('fr-FR') %></span>
+            </button>
+          <% }); %>
+        <% } else { %>
+          <p class="no-conversations">Aucune conversation</p>
+        <% } %>
+      </div>
+    </aside>
+
+    <!-- Zone de chat -->
+    <main class="assistant-main">
+      <% if (!hasApiKey) { %>
+        <div class="api-warning">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span>Mode démo — L'assistant utilise des réponses simulées. Ajoutez votre clé API Claude dans .env pour des réponses réelles.</span>
+        </div>
+      <% } %>
+
+      <div class="chat-messages" id="chat-messages">
+        <template x-if="messages.length === 0">
+          <div class="chat-welcome">
+            <div class="welcome-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </div>
+            <h2>Assistant IA ISFEC B2B</h2>
+            <p>Je suis là pour vous aider à comprendre les études de marché et prendre des décisions pour votre projet B2B.</p>
+            <div class="welcome-suggestions">
+              <button class="suggestion-btn" @click="sendMessage('Quels sont les objectifs de CA du projet ?')">
+                Objectifs de CA
+              </button>
+              <button class="suggestion-btn" @click="sendMessage('Explique-moi ce qu\\'est un OPCO')">
+                Qu'est-ce qu'un OPCO ?
+              </button>
+              <button class="suggestion-btn" @click="sendMessage('Quels segments sont prioritaires ?')">
+                Segments prioritaires
+              </button>
+              <button class="suggestion-btn" @click="sendMessage('Que dois-je prioriser cette semaine ?')">
+                Actions prioritaires
+              </button>
+            </div>
+          </div>
+        </template>
+
+        <template x-for="(msg, index) in messages" :key="index">
+          <div class="chat-message" :class="msg.role">
+            <div class="message-avatar">
+              <template x-if="msg.role === 'user'">
+                <span><%= user.name.charAt(0) %></span>
+              </template>
+              <template x-if="msg.role === 'assistant'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </template>
+            </div>
+            <div class="message-content" x-html="formatMessage(msg.content)"></div>
+          </div>
+        </template>
+
+        <template x-if="loading">
+          <div class="chat-message assistant">
+            <div class="message-avatar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </div>
+            <div class="message-content">
+              <div class="typing-indicator">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <div class="chat-input-container">
+        <form class="chat-form" @submit.prevent="sendMessage(inputMessage)">
+          <textarea
+            x-model="inputMessage"
+            class="chat-input"
+            placeholder="Posez votre question..."
+            rows="1"
+            @keydown.enter.prevent="if (!$event.shiftKey) sendMessage(inputMessage)"
+            @input="autoResize($event.target)"
+          ></textarea>
+          <button type="submit" class="btn btn-primary chat-send" :disabled="!inputMessage.trim() || loading">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+function assistantApp() {
+  return {
+    messages: <%- JSON.stringify(messages || []) %>,
+    conversationId: <%= activeConversation ? activeConversation.id : 'null' %>,
+    inputMessage: '',
+    loading: false,
+
+    async sendMessage(message) {
+      if (!message.trim() || this.loading) return;
+
+      this.inputMessage = '';
+      this.messages.push({ role: 'user', content: message });
+      this.scrollToBottom();
+      this.loading = true;
+
+      try {
+        const response = await fetch('/api/assistant/message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message,
+            conversationId: this.conversationId
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          this.conversationId = data.conversationId;
+          this.messages.push({ role: 'assistant', content: data.response });
+        } else {
+          this.messages.push({
+            role: 'assistant',
+            content: 'Désolé, une erreur est survenue. Veuillez réessayer.'
+          });
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        this.messages.push({
+          role: 'assistant',
+          content: 'Désolé, une erreur de connexion est survenue.'
+        });
+      }
+
+      this.loading = false;
+      this.scrollToBottom();
+    },
+
+    async newConversation() {
+      this.messages = [];
+      this.conversationId = null;
+    },
+
+    async loadConversation(id) {
+      try {
+        const response = await fetch(`/api/assistant/conversation/${id}`);
+        const data = await response.json();
+        this.messages = data.messages;
+        this.conversationId = id;
+        this.scrollToBottom();
+      } catch (error) {
+        console.error('Erreur:', error);
+      }
+    },
+
+    formatMessage(content) {
+      // Simple markdown-like formatting
+      return content
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>')
+        .replace(/- (.*?)(?=<br>|$)/g, '<li>$1</li>')
+        .replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+    },
+
+    scrollToBottom() {
+      this.$nextTick(() => {
+        const container = document.getElementById('chat-messages');
+        if (container) {
+          container.scrollTop = container.scrollHeight;
+        }
+      });
+    },
+
+    autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 150) + 'px';
+    }
+  };
+}
+</script>
+
+<style>
+.assistant-container {
+  height: calc(100vh - var(--header-height) - var(--space-2xl) * 2);
+  min-height: 500px;
+}
+
+.assistant-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--space-lg);
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .assistant-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .assistant-sidebar {
+    display: none;
+  }
+}
+
+.assistant-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.conversation-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.conversation-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background: none;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background var(--transition-fast);
+}
+
+.conversation-item:hover {
+  background: var(--rose-pale);
+}
+
+.conversation-item.active {
+  background: var(--rose-pale);
+}
+
+.conversation-title {
+  font-weight: 500;
+  color: var(--gray-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.conversation-date {
+  font-size: 12px;
+  color: var(--gray-secondary);
+}
+
+.no-conversations {
+  text-align: center;
+  color: var(--gray-secondary);
+  font-size: 14px;
+  padding: var(--space-lg);
+}
+
+.assistant-main {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.api-warning {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--warning-light);
+  color: var(--warning);
+  font-size: 13px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.chat-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-2xl);
+  height: 100%;
+}
+
+.welcome-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--rose-pale);
+  color: var(--bordeaux);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-lg);
+}
+
+.chat-welcome h2 {
+  color: var(--bordeaux);
+  margin-bottom: var(--space-sm);
+}
+
+.chat-welcome p {
+  color: var(--gray-secondary);
+  max-width: 400px;
+}
+
+.welcome-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.suggestion-btn {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--gray-bg);
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius-lg);
+  color: var(--gray-text);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.suggestion-btn:hover {
+  background: var(--rose-pale);
+  border-color: var(--bordeaux);
+  color: var(--bordeaux);
+}
+
+.chat-message {
+  display: flex;
+  gap: var(--space-md);
+  max-width: 80%;
+}
+
+.chat-message.user {
+  flex-direction: row-reverse;
+  margin-left: auto;
+}
+
+.message-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chat-message.user .message-avatar {
+  background: var(--bordeaux);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.chat-message.assistant .message-avatar {
+  background: var(--rose-pale);
+  color: var(--bordeaux);
+}
+
+.message-content {
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  line-height: 1.6;
+}
+
+.chat-message.user .message-content {
+  background: var(--bordeaux);
+  color: var(--white);
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+.chat-message.assistant .message-content {
+  background: var(--gray-bg);
+  color: var(--gray-text);
+  border-bottom-left-radius: var(--radius-sm);
+}
+
+.message-content ul {
+  margin: var(--space-sm) 0;
+  padding-left: var(--space-lg);
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  background: var(--gray-secondary);
+  border-radius: 50%;
+  animation: typing 1.4s infinite;
+}
+
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+
+.chat-input-container {
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--gray-light);
+}
+
+.chat-form {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-end;
+}
+
+.chat-input {
+  flex: 1;
+  padding: var(--space-md);
+  border: 2px solid var(--gray-light);
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: 15px;
+  resize: none;
+  max-height: 150px;
+  transition: border-color var(--transition-fast);
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: var(--bordeaux);
+}
+
+.chat-send {
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+}
+
+.chat-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+</style>

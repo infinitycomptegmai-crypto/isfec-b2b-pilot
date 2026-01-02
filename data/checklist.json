@@ -1,0 +1,710 @@
+{
+  "meta": {
+    "titre": "Informations à fournir — Projet B2B ISFEC AFAREC",
+    "date": "Janvier 2026",
+    "statut": "En attente de réponses"
+  },
+  "sections": [
+    {
+      "id": "structure-effectifs",
+      "titre": "1.1 Effectifs et ressources humaines",
+      "priorite": "critique",
+      "fields": [
+        {
+          "id": "effectif_total",
+          "label": "Effectif réel total",
+          "type": "number",
+          "suffix": "salariés",
+          "required": true,
+          "help": "Les sources donnent 50-99 ou 100-199 salariés. Besoin du chiffre exact."
+        },
+        {
+          "id": "perimetre_300",
+          "label": "Périmètre des \"300 personnes\"",
+          "type": "textarea",
+          "required": true,
+          "help": "Ce chiffre est mentionné mais pas clarifié. Inclut-il les vacataires, les partenaires ?"
+        },
+        {
+          "id": "formateurs_internes",
+          "label": "Nombre de formateurs internes",
+          "type": "number",
+          "suffix": "formateurs",
+          "required": true,
+          "help": "Combien de formateurs salariés à temps plein/partiel ?"
+        },
+        {
+          "id": "formateurs_externes",
+          "label": "Nombre de formateurs externes réguliers",
+          "type": "number",
+          "suffix": "vacataires",
+          "required": true,
+          "help": "Vacataires fidélisés, intervenant régulièrement"
+        },
+        {
+          "id": "liste_formateurs_specialites",
+          "label": "Liste des formateurs par spécialité",
+          "type": "textarea",
+          "required": false,
+          "help": "Qui peut intervenir sur quelles thématiques ? (management, SST, PSSM, etc.)"
+        }
+      ]
+    },
+    {
+      "id": "structure-capacite",
+      "titre": "1.2 Capacité de production",
+      "priorite": "critique",
+      "fields": [
+        {
+          "id": "jours_formateurs_an",
+          "label": "Jours-formateurs disponibles / an",
+          "type": "number",
+          "suffix": "jours/an",
+          "required": true,
+          "help": "Capacité totale de l'équipe pour des formations B2B externes"
+        },
+        {
+          "id": "taux_occupation",
+          "label": "Taux d'occupation actuel",
+          "type": "number",
+          "suffix": "%",
+          "required": true,
+          "help": "Les formateurs sont-ils déjà saturés ou ont-ils de la disponibilité ?"
+        },
+        {
+          "id": "nb_salles",
+          "label": "Nombre de salles disponibles",
+          "type": "number",
+          "suffix": "salles",
+          "required": true,
+          "help": "Combien de salles de formation, quelle capacité ?"
+        },
+        {
+          "id": "capacite_accueil",
+          "label": "Capacité d'accueil simultané",
+          "type": "number",
+          "suffix": "personnes",
+          "required": true,
+          "help": "Combien de stagiaires peuvent être formés en même temps ?"
+        }
+      ]
+    },
+    {
+      "id": "structure-equipements",
+      "titre": "1.3 Équipements et outils",
+      "priorite": "utile",
+      "fields": [
+        {
+          "id": "outils_numeriques",
+          "label": "Outils numériques existants",
+          "type": "textarea",
+          "required": false,
+          "help": "CRM ? Outil de gestion formation ? Emailing ?"
+        },
+        {
+          "id": "plateforme_elearning",
+          "label": "Plateforme e-learning utilisable pour B2B",
+          "type": "radio",
+          "options": [
+            {"value": "oui", "label": "Oui"},
+            {"value": "non", "label": "Non"},
+            {"value": "a_adapter", "label": "À adapter"}
+          ],
+          "required": false,
+          "help": "Moodle mentionné — est-il utilisable pour le B2B ?"
+        },
+        {
+          "id": "budget_outils",
+          "label": "Budget outils disponible",
+          "type": "number",
+          "suffix": "€/an",
+          "required": false,
+          "help": "Pour CRM, emailing, IA, etc."
+        }
+      ]
+    },
+    {
+      "id": "financier-ca",
+      "titre": "2.1 Chiffre d'affaires Formation Continue",
+      "priorite": "critique",
+      "fields": [
+        {
+          "id": "ca_fc_2023",
+          "label": "CA Formation Continue 2023",
+          "type": "number",
+          "suffix": "€",
+          "required": true,
+          "help": "Hors financements Formiris (enseignants)"
+        },
+        {
+          "id": "ca_fc_2024",
+          "label": "CA Formation Continue 2024",
+          "type": "number",
+          "suffix": "€",
+          "required": true,
+          "help": "Hors financements Formiris"
+        },
+        {
+          "id": "ca_fc_2025",
+          "label": "CA Formation Continue 2025",
+          "type": "number",
+          "suffix": "€",
+          "required": true,
+          "help": "Prévisionnel ou réalisé"
+        }
+      ]
+    },
+    {
+      "id": "financier-repartition",
+      "titre": "2.2 Répartition par financeur",
+      "priorite": "important",
+      "fields": [
+        {
+          "id": "part_akto",
+          "label": "Part AKTO (OGEC)",
+          "type": "number",
+          "suffix": "%",
+          "required": false,
+          "help": "% du CA FC venant d'AKTO"
+        },
+        {
+          "id": "part_formiris",
+          "label": "Part Formiris (enseignants)",
+          "type": "number",
+          "suffix": "%",
+          "required": false,
+          "help": "% du CA FC venant de Formiris"
+        },
+        {
+          "id": "part_entreprises_directes",
+          "label": "Part entreprises directes",
+          "type": "number",
+          "suffix": "%",
+          "required": false,
+          "help": "% du CA FC en facturation directe"
+        },
+        {
+          "id": "part_autres_opco",
+          "label": "Part autres OPCO",
+          "type": "number",
+          "suffix": "%",
+          "required": false,
+          "help": "Uniformation, OPCO Santé, etc."
+        }
+      ]
+    },
+    {
+      "id": "financier-clients",
+      "titre": "2.3 Clients existants hors réseau EC",
+      "priorite": "critique",
+      "fields": [
+        {
+          "id": "nb_clients_b2b",
+          "label": "Nombre de clients B2B hors OGEC",
+          "type": "number",
+          "suffix": "clients",
+          "required": true,
+          "help": "Entreprises, associations, structures hors EC"
+        },
+        {
+          "id": "panier_moyen",
+          "label": "Panier moyen par client",
+          "type": "number",
+          "suffix": "€",
+          "required": true,
+          "help": "Montant moyen facturé par client/an"
+        },
+        {
+          "id": "exemples_clients",
+          "label": "Exemples de clients",
+          "type": "textarea",
+          "required": false,
+          "help": "Noms ou types de structures (anonymisés si besoin)"
+        },
+        {
+          "id": "formations_plus_vendues",
+          "label": "Formations les plus vendues",
+          "type": "textarea",
+          "required": false,
+          "help": "Top 3 des formations B2B actuelles"
+        }
+      ]
+    },
+    {
+      "id": "financier-tarifs",
+      "titre": "2.4 Tarifs actuels pratiqués",
+      "priorite": "important",
+      "fields": [
+        {
+          "id": "tarif_jour_intra",
+          "label": "Tarif jour formation intra",
+          "type": "number",
+          "suffix": "€/jour",
+          "required": false,
+          "help": "Moyenne ou fourchette"
+        },
+        {
+          "id": "tarif_sst",
+          "label": "Tarif formation SST",
+          "type": "number",
+          "suffix": "€",
+          "required": false,
+          "help": "Inter-entreprises"
+        },
+        {
+          "id": "tarif_pssm",
+          "label": "Tarif formation PSSM",
+          "type": "number",
+          "suffix": "€",
+          "required": false,
+          "help": "Inter-entreprises"
+        },
+        {
+          "id": "tarif_heure_stagiaire",
+          "label": "Tarif heure stagiaire moyen",
+          "type": "number",
+          "suffix": "€/h",
+          "required": false,
+          "help": "Pour calcul de rentabilité"
+        }
+      ]
+    },
+    {
+      "id": "decisions-budget",
+      "titre": "3.1 Budget du projet",
+      "priorite": "critique",
+      "fields": [
+        {
+          "id": "budget_lancement",
+          "label": "Budget de lancement",
+          "type": "radio",
+          "options": [
+            {"value": "45000", "label": "45 000 € (recommandé)"},
+            {"value": "autre", "label": "Autre montant"}
+          ],
+          "required": true,
+          "help": "Budget initial pour lancer le projet"
+        },
+        {
+          "id": "budget_lancement_autre",
+          "label": "Si autre, précisez le montant",
+          "type": "number",
+          "suffix": "€",
+          "required": false,
+          "showWhen": {"field": "budget_lancement", "value": "autre"}
+        },
+        {
+          "id": "tresorerie_securite",
+          "label": "Trésorerie de sécurité",
+          "type": "radio",
+          "options": [
+            {"value": "40000", "label": "40 000 € (recommandé)"},
+            {"value": "autre", "label": "Autre montant"}
+          ],
+          "required": true,
+          "help": "Pour couvrir les délais de paiement OPCO"
+        },
+        {
+          "id": "budget_marketing",
+          "label": "Budget marketing annuel",
+          "type": "radio",
+          "options": [
+            {"value": "20000-25000", "label": "20-25 K€ (recommandé)"},
+            {"value": "autre", "label": "Autre montant"}
+          ],
+          "required": true
+        },
+        {
+          "id": "budget_outils_crm",
+          "label": "Budget outils (CRM, IA)",
+          "type": "radio",
+          "options": [
+            {"value": "3000-5000", "label": "3-5 K€/an (recommandé)"},
+            {"value": "autre", "label": "Autre montant"}
+          ],
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "decisions-commercial",
+      "titre": "3.2 Organisation commerciale",
+      "priorite": "critique",
+      "fields": [
+        {
+          "id": "modele_commercial",
+          "label": "Modèle commercial choisi",
+          "type": "radio",
+          "options": [
+            {"value": "A", "label": "Option A : Dédié (1 commercial 100%)"},
+            {"value": "B", "label": "Option B : Partagé (temps partiel)"},
+            {"value": "C", "label": "Option C : Externe (freelance/cabinet)"}
+          ],
+          "required": true,
+          "help": "Choisir le modèle d'organisation commerciale"
+        },
+        {
+          "id": "budget_rh_commercial",
+          "label": "Budget RH commercial",
+          "type": "number",
+          "suffix": "€/an",
+          "required": true,
+          "help": "A : 40-50 K€ / B : 20-25 K€ / C : variable"
+        },
+        {
+          "id": "profil_recherche",
+          "label": "Profil recherché",
+          "type": "textarea",
+          "required": false,
+          "help": "Junior/Confirmé/Senior ? Secteur souhaité ?"
+        }
+      ]
+    },
+    {
+      "id": "decisions-pilotage",
+      "titre": "3.3 Pilotage du projet",
+      "priorite": "critique",
+      "fields": [
+        {
+          "id": "responsable_operationnel",
+          "label": "Responsable opérationnel",
+          "type": "text",
+          "required": true,
+          "help": "Qui pilote le projet au quotidien ?"
+        },
+        {
+          "id": "temps_dedie",
+          "label": "Temps dédié",
+          "type": "number",
+          "suffix": "%",
+          "required": true,
+          "help": "Combien de temps cette personne peut consacrer ?"
+        },
+        {
+          "id": "sponsor_direction",
+          "label": "Sponsor direction",
+          "type": "text",
+          "required": true,
+          "help": "Qui porte le projet au niveau stratégique ?"
+        },
+        {
+          "id": "comite_pilotage",
+          "label": "Comité de pilotage",
+          "type": "textarea",
+          "required": false,
+          "help": "Qui participe aux revues mensuelles ?"
+        }
+      ]
+    },
+    {
+      "id": "decisions-calendrier",
+      "titre": "3.4 Calendrier",
+      "priorite": "critique",
+      "fields": [
+        {
+          "id": "date_lancement",
+          "label": "Date de lancement (M1)",
+          "type": "text",
+          "required": true,
+          "help": "Quand démarre officiellement le projet ?"
+        },
+        {
+          "id": "date_recrutement_commercial",
+          "label": "Date recrutement commercial",
+          "type": "text",
+          "required": false,
+          "help": "Si option A retenue"
+        },
+        {
+          "id": "date_1er_webinaire",
+          "label": "Date 1er webinaire",
+          "type": "text",
+          "required": false,
+          "help": "Cible : M2-M3"
+        },
+        {
+          "id": "date_1ere_vente",
+          "label": "Date 1ère vente cible",
+          "type": "text",
+          "required": false,
+          "help": "Cible : M3-M4"
+        }
+      ]
+    },
+    {
+      "id": "validation-positionnement",
+      "titre": "4.1 Positionnement V2 (hors réseau)",
+      "priorite": "critique",
+      "fields": [
+        {
+          "id": "accord_65_hors_reseau",
+          "label": "Accord sur la cible 65% hors réseau à Y3 ?",
+          "type": "radio",
+          "options": [
+            {"value": "oui", "label": "Oui"},
+            {"value": "non", "label": "Non"},
+            {"value": "a_discuter", "label": "À discuter"}
+          ],
+          "required": true,
+          "help": "La V2 propose que le réseau EC ne représente plus que 35% du CA à 3 ans"
+        },
+        {
+          "id": "priorite_ess_medicosocial",
+          "label": "Priorité segments ESS/médico-social ?",
+          "type": "radio",
+          "options": [
+            {"value": "oui", "label": "Oui"},
+            {"value": "non", "label": "Non"},
+            {"value": "a_discuter", "label": "À discuter"}
+          ],
+          "required": true,
+          "help": "Ces segments sont-ils validés comme prioritaires ?"
+        },
+        {
+          "id": "positionnement_ia",
+          "label": "Positionnement \"IA\" accepté ?",
+          "type": "radio",
+          "options": [
+            {"value": "oui", "label": "Oui"},
+            {"value": "non", "label": "Non"},
+            {"value": "a_discuter", "label": "À discuter"}
+          ],
+          "required": true,
+          "help": "L'ISFEC veut-il se positionner comme \"augmenté par l'IA\" ?"
+        }
+      ]
+    },
+    {
+      "id": "validation-objectifs",
+      "titre": "4.2 Objectifs de CA",
+      "priorite": "important",
+      "fields": [
+        {
+          "id": "objectif_ca_y1",
+          "label": "Objectif Année 1 : 150 K€",
+          "type": "radio",
+          "options": [
+            {"value": "ok", "label": "OK"},
+            {"value": "ajuster", "label": "À ajuster"}
+          ],
+          "required": true,
+          "help": "Est-ce réaliste ? Trop ambitieux ? Pas assez ?"
+        },
+        {
+          "id": "objectif_ca_y1_ajuste",
+          "label": "Si ajusté, nouveau montant",
+          "type": "number",
+          "suffix": "€",
+          "required": false
+        },
+        {
+          "id": "objectif_ca_y2",
+          "label": "Objectif Année 2 : 350 K€",
+          "type": "radio",
+          "options": [
+            {"value": "ok", "label": "OK"},
+            {"value": "ajuster", "label": "À ajuster"}
+          ],
+          "required": true
+        },
+        {
+          "id": "objectif_ca_y3",
+          "label": "Objectif Année 3 : 700 K€",
+          "type": "radio",
+          "options": [
+            {"value": "ok", "label": "OK"},
+            {"value": "ajuster", "label": "À ajuster"}
+          ],
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "validation-offre",
+      "titre": "4.3 Offre et tarifs",
+      "priorite": "important",
+      "fields": [
+        {
+          "id": "validation_packs",
+          "label": "Validation des 3 packs signature",
+          "type": "radio",
+          "options": [
+            {"value": "ok", "label": "OK"},
+            {"value": "modifier", "label": "À modifier"}
+          ],
+          "required": true,
+          "help": "Manager & Stabiliser / Coopérer & Prévenir / IA Pragmatique"
+        },
+        {
+          "id": "tarifs_acceptables",
+          "label": "Tarifs proposés acceptables ?",
+          "type": "radio",
+          "options": [
+            {"value": "ok", "label": "OK"},
+            {"value": "trop_bas", "label": "Trop bas"},
+            {"value": "trop_haut", "label": "Trop haut"}
+          ],
+          "required": true,
+          "help": "-20 à -30% vs concurrents premium"
+        },
+        {
+          "id": "formations_a_ajouter",
+          "label": "Formations à ajouter ?",
+          "type": "textarea",
+          "required": false,
+          "help": "Manque-t-il des thématiques au catalogue proposé ?"
+        },
+        {
+          "id": "formations_a_retirer",
+          "label": "Formations à retirer ?",
+          "type": "textarea",
+          "required": false,
+          "help": "Certaines sont-elles hors périmètre ?"
+        }
+      ]
+    },
+    {
+      "id": "reseau-ec",
+      "titre": "5.1 Accès au réseau EC",
+      "priorite": "important",
+      "fields": [
+        {
+          "id": "relation_urogec",
+          "label": "Relation avec UROGEC IdF",
+          "type": "textarea",
+          "required": false,
+          "help": "Qualité de la relation ? Contacts clés ?"
+        },
+        {
+          "id": "relation_ddec",
+          "label": "Relation avec les 8 DDEC",
+          "type": "textarea",
+          "required": false,
+          "help": "Peut-on compter sur leur soutien actif ?"
+        },
+        {
+          "id": "acces_chefs_etablissement",
+          "label": "Accès aux chefs d'établissement",
+          "type": "textarea",
+          "required": false,
+          "help": "Comment les toucher ? Base de données ?"
+        },
+        {
+          "id": "evenements_reseau_ec",
+          "label": "Événements réseau EC",
+          "type": "textarea",
+          "required": false,
+          "help": "Quels événements existent pour se faire connaître ?"
+        }
+      ]
+    },
+    {
+      "id": "reseau-externe",
+      "titre": "5.2 Partenariats externes",
+      "priorite": "utile",
+      "fields": [
+        {
+          "id": "relation_cress",
+          "label": "Relation avec CRESS IdF",
+          "type": "textarea",
+          "required": false,
+          "help": "Pour accéder au marché ESS"
+        },
+        {
+          "id": "contacts_opco",
+          "label": "Contacts OPCO (hors AKTO)",
+          "type": "textarea",
+          "required": false,
+          "help": "Uniformation, OPCO Santé ?"
+        },
+        {
+          "id": "partenaires_formateurs",
+          "label": "Partenaires formateurs potentiels",
+          "type": "textarea",
+          "required": false,
+          "help": "Cabinets, indépendants avec qui collaborer ?"
+        }
+      ]
+    },
+    {
+      "id": "contexte-interne",
+      "titre": "6.1 Contexte interne",
+      "priorite": "utile",
+      "fields": [
+        {
+          "id": "fusion_la_salle",
+          "label": "Fusion ISFEC La Salle Mounier",
+          "type": "textarea",
+          "required": false,
+          "help": "Où en est-elle ? Impact sur le projet B2B ?"
+        },
+        {
+          "id": "soutien_direction",
+          "label": "Soutien de la direction générale",
+          "type": "radio",
+          "options": [
+            {"value": "oui", "label": "Oui"},
+            {"value": "non", "label": "Non"},
+            {"value": "partiel", "label": "Partiel"}
+          ],
+          "required": false,
+          "help": "Le projet est-il porté au plus haut niveau ?"
+        },
+        {
+          "id": "resistances_internes",
+          "label": "Résistances internes prévisibles",
+          "type": "textarea",
+          "required": false,
+          "help": "Y a-t-il des freins identifiés ?"
+        },
+        {
+          "id": "appetence_ia",
+          "label": "Appétence de l'équipe pour l'IA",
+          "type": "radio",
+          "options": [
+            {"value": "oui", "label": "Oui"},
+            {"value": "non", "label": "Non"},
+            {"value": "a_former", "label": "À former"}
+          ],
+          "required": false,
+          "help": "L'équipe est-elle prête à utiliser des outils IA ?"
+        }
+      ]
+    },
+    {
+      "id": "contraintes",
+      "titre": "6.2 Contraintes spécifiques",
+      "priorite": "utile",
+      "fields": [
+        {
+          "id": "contraintes_reglementaires",
+          "label": "Contraintes réglementaires",
+          "type": "textarea",
+          "required": false,
+          "help": "Y a-t-il des règles spécifiques liées au statut ?"
+        },
+        {
+          "id": "contraintes_budgetaires",
+          "label": "Contraintes budgétaires",
+          "type": "textarea",
+          "required": false,
+          "help": "Plafond d'investissement ? Validation nécessaire ?"
+        },
+        {
+          "id": "contraintes_rh",
+          "label": "Contraintes RH",
+          "type": "textarea",
+          "required": false,
+          "help": "Difficultés de recrutement ? Grille salariale ?"
+        },
+        {
+          "id": "contraintes_calendaires",
+          "label": "Contraintes calendaires",
+          "type": "textarea",
+          "required": false,
+          "help": "Périodes à éviter ? Échéances fixes ?"
+        }
+      ]
+    }
+  ]
+}
